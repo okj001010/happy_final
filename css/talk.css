@@ -1,0 +1,136 @@
+@import url('common.css');
+
+/* 페이지 헤더 */
+.page-header {
+  display: flex; align-items: center; gap: 15px;
+  margin-bottom: 25px;
+}
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,152,0,0.15); border: none;
+  color: #E65100; font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.back-btn:hover { background: rgba(255,152,0,0.25); }
+.page-title { color: #E65100; font-size: 1.5rem; font-weight: 700; }
+
+/* 작성 카드 */
+.write-card {
+  background: white; border-radius: 20px;
+  box-shadow: 0 15px 50px rgba(255,152,0,0.15);
+  overflow: hidden;
+}
+
+.write-header {
+  background: linear-gradient(135deg, #81C784, #66BB6A);
+  padding: 25px; color: white;
+}
+.write-header h2 { font-size: 1.3rem; margin-bottom: 8px; }
+.write-header p { font-size: 0.9rem; opacity: 0.9; }
+
+.write-body { padding: 25px; }
+
+.write-textarea {
+  width: 100%; min-height: 180px; padding: 18px;
+  border: 2px solid #C8E6C9; border-radius: 12px;
+  font-size: 1rem; font-family: inherit; resize: vertical;
+}
+.write-textarea:focus { outline: none; border-color: #66BB6A; }
+
+.char-count { text-align: right; font-size: 0.8rem; color: #999; margin-top: 8px; }
+
+.write-actions { display: flex; gap: 10px; margin-top: 20px; }
+.write-actions .btn { flex: 1; }
+.btn-green { background: linear-gradient(135deg, #81C784, #66BB6A); color: white; }
+.btn-green:hover { box-shadow: 0 5px 20px rgba(102,187,106,0.4); transform: translateY(-2px); }
+
+/* 피드백 메시지 */
+.feedback {
+  padding: 15px; border-radius: 10px; margin-bottom: 15px;
+  display: flex; align-items: center; gap: 12px;
+}
+.feedback.negative { background: #fff3e0; }
+.feedback.negative .icon { color: #ff9800; font-size: 1.5rem; }
+.feedback.negative .text { color: #e65100; font-size: 0.9rem; }
+
+.attempt-count {
+  background: #FFF8E1; padding: 10px 15px; border-radius: 8px;
+  font-size: 0.85rem; color: #E65100; margin-bottom: 15px;
+}
+
+/* 이전 기록 */
+.history-section { margin-top: 30px; }
+.history-title { color: #E65100; font-size: 1rem; margin-bottom: 15px; }
+.history-list { display: flex; flex-direction: column; gap: 10px; }
+
+.history-item {
+  background: white; border-radius: 12px; padding: 15px;
+  cursor: pointer; transition: transform 0.2s;
+  box-shadow: 0 4px 15px rgba(255,152,0,0.1);
+}
+.history-item:hover { transform: translateX(5px); }
+.history-date { font-size: 0.8rem; color: #66BB6A; font-weight: 600; margin-bottom: 5px; }
+.history-content { font-size: 0.9rem; color: #555; line-height: 1.5; }
+.history-emotion { margin-top: 8px; padding-top: 8px; border-top: 1px solid #E8F5E9; font-size: 0.85rem; color: #888; }
+.history-attempts { font-size: 0.75rem; color: #66BB6A; margin-top: 5px; }
+
+/* 감정 모달 */
+.emotion-prompt {
+  background: #E8F5E9; border-radius: 10px; padding: 15px;
+  margin-bottom: 15px; text-align: center;
+}
+.emotion-prompt .icon { font-size: 2rem; margin-bottom: 8px; }
+.emotion-prompt p { color: #388E3C; font-size: 0.95rem; }
+
+/* 모바일 반응형 */
+@media (max-width: 500px) {
+  .page-header { gap: 12px; margin-bottom: 20px; }
+  .back-btn { width: 36px; height: 36px; font-size: 1.1rem; }
+  .page-title { font-size: 1.3rem; }
+  
+  .write-card { border-radius: 16px; }
+  .write-header { padding: 20px; }
+  .write-header h2 { font-size: 1.1rem; }
+  .write-header p { font-size: 0.85rem; }
+  
+  .write-body { padding: 20px; }
+  .write-textarea {
+    min-height: 150px;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 10px;
+  }
+  .char-count { font-size: 0.75rem; }
+  
+  .feedback { padding: 12px; gap: 10px; }
+  .feedback.negative .icon { font-size: 1.3rem; }
+  .feedback.negative .text { font-size: 0.85rem; }
+  
+  .attempt-count { padding: 8px 12px; font-size: 0.8rem; }
+  
+  .write-actions { margin-top: 15px; }
+  .write-actions .btn { 
+    width: 100%;
+    min-height: 48px;
+  }
+  
+  .history-section { margin-top: 25px; }
+  .history-title { font-size: 0.95rem; margin-bottom: 12px; }
+  
+  .history-item { padding: 12px; border-radius: 10px; }
+  .history-date { font-size: 0.75rem; }
+  .history-content { font-size: 0.85rem; }
+  .history-emotion { font-size: 0.8rem; }
+  .history-attempts { font-size: 0.7rem; }
+  
+  .emotion-prompt { padding: 12px; }
+  .emotion-prompt .icon { font-size: 1.8rem; }
+  .emotion-prompt p { font-size: 0.9rem; }
+}
+
+@media (max-width: 360px) {
+  .page-title { font-size: 1.2rem; }
+  .write-header { padding: 15px; }
+  .write-body { padding: 15px; }
+  .write-textarea { min-height: 130px; padding: 12px; }
+}

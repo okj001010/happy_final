@@ -1,0 +1,90 @@
+@import url('common.css');
+
+body {
+  display: flex; justify-content: center; align-items: center; padding: 20px;
+}
+
+.login-container { width: 100%; max-width: 400px; }
+
+.login-card {
+  background: white; border-radius: 24px;
+  box-shadow: 0 25px 80px rgba(255,152,0,0.25); overflow: hidden;
+}
+
+.logo-section {
+  background: linear-gradient(135deg, #FFB74D 0%, #FF9800 50%, #F57C00 100%);
+  padding: 50px 30px; text-align: center; color: white;
+}
+.app-title {
+  font-size: 3.5rem; font-weight: 800; margin-bottom: 10px;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+.app-subtitle { font-size: 1rem; opacity: 0.95; }
+
+.login-content { padding: 35px 30px; text-align: center; }
+.welcome-text { font-size: 1.4rem; font-weight: 700; color: #E65100; margin-bottom: 10px; }
+.description { color: #666; line-height: 1.6; margin-bottom: 25px; font-size: 0.95rem; }
+
+.google-login-btn {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; padding: 16px 24px; background: white;
+  border: 2px solid #FFE0B2; border-radius: 50px;
+  font-size: 1rem; font-weight: 600; color: #333; cursor: pointer;
+  transition: all 0.3s ease;
+}
+.google-login-btn:hover {
+  border-color: #FF9800; background: #FFF8E1;
+  transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,152,0,0.25);
+}
+.google-icon { width: 24px; height: 24px; }
+
+.login-note { margin-top: 20px; font-size: 0.8rem; color: #999; }
+
+.features-preview {
+  display: flex; justify-content: space-around;
+  padding: 25px 15px; background: #FFF8E1; border-top: 1px solid #FFE0B2;
+}
+.feature { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.feature-icon { font-size: 1.8rem; }
+.feature-text { font-size: 0.75rem; color: #E65100; font-weight: 500; text-align: center; }
+
+/* 모바일 반응형 */
+@media (max-width: 500px) {
+  body { padding: 15px; }
+  
+  .logo-section { padding: 40px 20px; }
+  .app-title { font-size: 2.8rem; }
+  .app-subtitle { font-size: 0.9rem; }
+  
+  .login-content { padding: 25px 20px; }
+  .welcome-text { font-size: 1.2rem; }
+  .description { font-size: 0.9rem; margin-bottom: 20px; }
+  
+  .google-login-btn {
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    min-height: 52px;
+  }
+  
+  .features-preview { 
+    padding: 20px 10px;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .feature { 
+    min-width: 70px;
+  }
+  .feature-icon { font-size: 1.5rem; }
+  .feature-text { font-size: 0.7rem; }
+}
+
+@media (max-width: 360px) {
+  .logo-section { padding: 30px 15px; }
+  .app-title { font-size: 2.4rem; }
+  
+  .login-content { padding: 20px 15px; }
+  .welcome-text { font-size: 1.1rem; }
+  
+  .features-preview { gap: 10px; }
+  .feature { min-width: 60px; }
+}

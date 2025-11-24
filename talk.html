@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAPPY - 긍정 자기대화</title>
+  <link rel="stylesheet" href="css/talk.css">
+</head>
+<body>
+  <div id="loading-overlay"><div class="spinner"></div></div>
+
+  <main class="container">
+    <div class="page-header">
+      <button class="back-btn" id="back-btn">←</button>
+      <h1 class="page-title">💪 긍정 자기대화</h1>
+    </div>
+
+    <div class="write-card">
+      <div class="write-header">
+        <h2>나에게 긍정적인 말을 해주세요</h2>
+        <p>자신을 격려하고 응원하는 말을 적어보세요.</p>
+      </div>
+      <div class="write-body">
+        <!-- 부정적 피드백 -->
+        <div id="feedback" class="feedback negative hidden">
+          <div class="icon">💡</div>
+          <div class="text">조금 더 긍정적인 표현으로 다시 작성해볼까요?</div>
+        </div>
+        
+        <!-- 시도 횟수 -->
+        <div id="attempt-count" class="attempt-count hidden">
+          시도 횟수: <span id="attempts">0</span>회
+        </div>
+
+        <textarea id="talk-input" class="write-textarea" 
+          placeholder="예: 나는 충분히 잘하고 있어. 오늘도 최선을 다한 나에게 고마워!"></textarea>
+        <div class="char-count"><span id="char-count">0</span>/500</div>
+        <div class="write-actions">
+          <button id="submit-btn" class="btn btn-green">저장하기</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="history-section">
+      <h3 class="history-title">📚 이전 기록</h3>
+      <div id="history-list" class="history-list"></div>
+    </section>
+  </main>
+
+  <!-- 감정 모달 -->
+  <div id="emotion-modal" class="modal">
+    <div class="modal-content">
+      <div class="emotion-prompt">
+        <div class="icon">🎉</div>
+        <p>멋진 긍정 대화예요! 지금 느끼는 감정도 기록해볼까요?</p>
+      </div>
+      <h3>지금 느끼는 감정은?</h3>
+      <textarea id="emotion-input" placeholder="예: 자신감이 생겨요, 힘이 나요..."></textarea>
+      <div class="modal-buttons">
+        <button id="skip-emotion" class="btn btn-secondary">건너뛰기</button>
+        <button id="save-emotion" class="btn btn-green">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 보기 모달 -->
+  <div id="view-modal" class="modal">
+    <div class="modal-content">
+      <h3 id="view-date"></h3>
+      <p id="view-content" style="line-height:1.7; color:#555; margin-bottom:15px; white-space:pre-wrap;"></p>
+      <div id="view-emotion-section" class="hidden">
+        <p style="color:#888; font-size:0.9rem;"><strong>그때의 감정:</strong> <span id="view-emotion"></span></p>
+      </div>
+      <div class="modal-buttons">
+        <button id="close-view" class="btn btn-secondary">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/talk.js"></script>
+</body>
+</html>

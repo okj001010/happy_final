@@ -1,0 +1,268 @@
+@import url('common.css');
+
+.page-header {
+  display: flex; align-items: center; gap: 15px;
+  margin-bottom: 25px;
+}
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,152,0,0.15); border: none;
+  color: #E65100; font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.back-btn:hover { background: rgba(255,152,0,0.25); }
+.page-title { color: #E65100; font-size: 1.5rem; font-weight: 700; }
+
+/* 작성 카드 */
+.write-card {
+  background: white; border-radius: 20px;
+  box-shadow: 0 15px 50px rgba(255,152,0,0.15);
+  overflow: hidden;
+}
+
+.write-header {
+  background: linear-gradient(135deg, #FF8A65, #FF7043);
+  padding: 25px; color: white;
+}
+.write-header h2 { font-size: 1.3rem; margin-bottom: 8px; }
+.write-header p { font-size: 0.9rem; opacity: 0.9; }
+
+.write-body { padding: 25px; }
+
+/* HRV 입력 */
+.hrv-input-section { text-align: center; }
+
+.hrv-input-wrapper {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-bottom: 20px;
+}
+
+.hrv-input {
+  width: 120px; padding: 15px; font-size: 2rem; font-weight: 700;
+  text-align: center; border: 3px solid #FFCCBC; border-radius: 12px;
+  color: #FF5722;
+}
+.hrv-input:focus { outline: none; border-color: #FF7043; }
+
+.hrv-unit { font-size: 1.2rem; color: #888; }
+
+.write-actions { margin-top: 20px; }
+.btn-orange { background: linear-gradient(135deg, #FF8A65, #FF7043); color: white; }
+.btn-orange:hover { box-shadow: 0 5px 20px rgba(255,112,67,0.4); transform: translateY(-2px); }
+
+/* HRV 비활성화 링크 */
+.disable-hrv-link {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.disable-hrv-link:hover {
+  color: #666;
+}
+
+/* 최근 기록 섹션 */
+.history-section { margin-top: 30px; }
+.history-title { color: #E65100; font-size: 1rem; margin-bottom: 15px; }
+
+/* 꺾은선 그래프 */
+.chart-container {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(255,152,0,0.1);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.chart-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #5D4037;
+}
+
+.chart-period {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.line-chart {
+  position: relative;
+  height: 180px;
+  padding: 10px 0;
+}
+
+.line-chart svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.chart-line {
+  fill: none;
+  stroke: #FF7043;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-area {
+  fill: url(#chartGradient);
+}
+
+.chart-point {
+  fill: #FF7043;
+  stroke: white;
+  stroke-width: 2;
+}
+
+.chart-point-label {
+  font-size: 8px;
+  fill: #555;
+  text-anchor: middle;
+  font-weight: 600;
+}
+
+.chart-x-label {
+  font-size: 9px;
+  fill: #888;
+  text-anchor: middle;
+}
+
+.chart-y-axis {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #aaa;
+}
+
+.chart-grid-line {
+  stroke: #e0e0e0;
+  stroke-width: 1;
+  stroke-dasharray: 3;
+}
+
+/* 통계 */
+.hrv-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.hrv-stat {
+  text-align: center;
+}
+
+.hrv-stat .label {
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.hrv-stat .value {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.hrv-stat .value.low { color: #f44336; }
+.hrv-stat .value.normal { color: #4caf50; }
+.hrv-stat .value.high { color: #2196f3; }
+
+/* 빈 상태 */
+.empty-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  color: #888;
+}
+
+.empty-chart .icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.empty-chart p {
+  font-size: 0.9rem;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 500px) {
+  .page-header { gap: 12px; margin-bottom: 20px; }
+  .back-btn { width: 36px; height: 36px; font-size: 1.1rem; }
+  .page-title { font-size: 1.3rem; }
+  
+  .write-card { border-radius: 16px; }
+  .write-header { padding: 20px; }
+  .write-header h2 { font-size: 1.1rem; }
+  .write-header p { font-size: 0.85rem; }
+  
+  .write-body { padding: 20px; }
+  
+  .hrv-input {
+    width: 100px;
+    padding: 12px;
+    font-size: 1.8rem;
+    border-radius: 10px;
+  }
+  .hrv-unit { font-size: 1rem; }
+  
+  .write-actions { margin-top: 15px; }
+  .btn-orange { min-height: 48px; }
+  
+  .disable-hrv-link { font-size: 0.75rem; margin-top: 12px; }
+  
+  .history-section { margin-top: 25px; }
+  .history-title { font-size: 0.95rem; margin-bottom: 12px; }
+  
+  .chart-container { 
+    padding: 15px;
+    border-radius: 14px;
+  }
+  .chart-title { font-size: 0.9rem; }
+  .chart-period { font-size: 0.75rem; }
+  
+  .line-chart { height: 160px; }
+  
+  .chart-point-label { font-size: 7px; }
+  .chart-x-label { font-size: 8px; }
+  
+  .hrv-stats { margin-top: 15px; padding-top: 12px; }
+  .hrv-stat .label { font-size: 0.7rem; }
+  .hrv-stat .value { font-size: 1.1rem; }
+  
+  .empty-chart { height: 160px; }
+  .empty-chart .icon { font-size: 2rem; }
+  .empty-chart p { font-size: 0.85rem; }
+}
+
+@media (max-width: 360px) {
+  .page-title { font-size: 1.2rem; }
+  .write-header { padding: 15px; }
+  .write-body { padding: 15px; }
+  
+  .hrv-input { width: 90px; font-size: 1.6rem; padding: 10px; }
+  
+  .chart-container { padding: 12px; }
+  .line-chart { height: 140px; }
+  
+  .hrv-stat .value { font-size: 1rem; }
+}

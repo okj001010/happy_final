@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAPPY - 주간 요약</title>
+  <link rel="stylesheet" href="css/weekly.css">
+</head>
+<body>
+  <div id="loading-overlay"><div class="spinner"></div></div>
+
+  <main class="container">
+    <div class="page-header">
+      <button class="back-btn" id="back-btn">←</button>
+      <h1 class="page-title">📊 주간 요약</h1>
+    </div>
+
+    <!-- 탭 -->
+    <div class="tabs">
+      <button class="tab active" data-type="gratitude">📝 감사 일기</button>
+      <button class="tab" data-type="selftalk">💪 긍정 대화</button>
+      <button class="tab" data-type="hrv" id="hrv-tab">❤️ HRV 분석</button>
+    </div>
+
+    <!-- 콘텐츠 영역 -->
+    <div id="content-area">
+      <!-- 동적 로딩 -->
+    </div>
+  </main>
+
+  <!-- 상세 보기 모달 -->
+  <div id="detail-modal" class="modal">
+    <div class="modal-content">
+      <h3 id="detail-title"></h3>
+      <img id="detail-image" class="report-image hidden" src="" alt="">
+      <div id="detail-chart-section" class="modal-chart-section hidden">
+        <div class="modal-chart-title">📈 해당 주차 HRV 추이</div>
+        <div id="detail-chart"></div>
+      </div>
+      <p id="detail-content" style="line-height:1.8; color:#555; white-space:pre-wrap;"></p>
+      <div class="modal-buttons">
+        <button id="close-detail" class="btn btn-secondary">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/weekly.js"></script>
+</body>
+</html>

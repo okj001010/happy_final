@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAPPY - 홈</title>
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body class="bg-image">
+  <div id="loading-overlay"><div class="spinner"></div></div>
+
+  <!-- 헤더 -->
+  <header class="header">
+    <h1 class="header-title">HAPPY</h1>
+    <div class="user-section">
+      <img id="user-photo" class="user-photo hidden" src="" alt="">
+      <span id="user-name" class="user-name"></span>
+      <button id="logout-btn" class="logout-btn">로그아웃</button>
+    </div>
+  </header>
+
+  <!-- 메인 -->
+  <main class="container">
+    <!-- 진행률 -->
+    <div class="progress-section">
+      <div class="progress-header">
+        <span class="progress-label">오늘의 진행률</span>
+        <span id="progress-count" class="progress-count">0/3</span>
+      </div>
+      <div class="progress-bar">
+        <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- 완료 메시지 (모두 완료 시) -->
+    <div id="complete-message" class="complete-message hidden">
+      <div class="icon">🎉</div>
+      <h3>오늘의 기록 완료!</h3>
+      <p>훌륭해요! 내일도 함께해요.</p>
+    </div>
+
+    <!-- 오늘의 할 일 -->
+    <section class="daily-tasks">
+      <h2 class="section-title">📋 오늘의 할 일</h2>
+      <div class="task-list">
+        <!-- 감사 일기 -->
+        <div class="task-item" id="task-journal" data-task="journal">
+          <div class="task-icon gratitude">📝</div>
+          <div class="task-info">
+            <div class="task-name">감사 일기</div>
+            <div class="task-desc">오늘 감사한 일을 기록하세요</div>
+          </div>
+          <div class="task-status pending" id="status-journal"></div>
+        </div>
+
+        <!-- 긍정 대화 -->
+        <div class="task-item" id="task-talk" data-task="talk">
+          <div class="task-icon positive">💪</div>
+          <div class="task-info">
+            <div class="task-name">긍정 자기대화</div>
+            <div class="task-desc">긍정적인 말로 자신을 격려하세요</div>
+          </div>
+          <div class="task-status pending" id="status-talk"></div>
+        </div>
+
+        <!-- HRV 기록 -->
+        <div class="task-item hidden" id="task-hrv" data-task="hrv">
+          <div class="task-icon hrv">❤️</div>
+          <div class="task-info">
+            <div class="task-name">HRV 기록</div>
+            <div class="task-desc">오늘의 심박변이도를 입력하세요</div>
+          </div>
+          <div class="task-status pending" id="status-hrv"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 주간 요약 -->
+    <section class="weekly-section">
+      <h2 class="section-title">📊 주간 요약</h2>
+      <div class="weekly-card" id="weekly-card">
+        <div class="weekly-icon">📈</div>
+        <div class="weekly-info">
+          <div class="weekly-name">이번 주 분석 보기</div>
+          <div class="weekly-desc">감사 일기, 긍정 대화, HRV 종합 리포트</div>
+        </div>
+        <span id="weekly-badge" class="weekly-badge hidden">0</span>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/home.js"></script>
+</body>
+</html>

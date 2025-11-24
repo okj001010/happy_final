@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAPPY - HRV 기록</title>
+  <link rel="stylesheet" href="css/hrv.css">
+</head>
+<body>
+  <div id="loading-overlay"><div class="spinner"></div></div>
+
+  <main class="container">
+    <div class="page-header">
+      <button class="back-btn" id="back-btn">←</button>
+      <h1 class="page-title">❤️ HRV 기록</h1>
+    </div>
+
+    <div class="write-card">
+      <div class="write-header">
+        <h2>오늘의 HRV를 입력해주세요</h2>
+        <p>웨어러블 기기에서 측정된 심박변이도(HRV)를 기록하세요.</p>
+      </div>
+      <div class="write-body">
+        <div class="hrv-input-section">
+          <div class="hrv-input-wrapper">
+            <input type="number" id="hrv-input" class="hrv-input" 
+              placeholder="0" min="0" max="200">
+            <span class="hrv-unit">ms</span>
+          </div>
+        </div>
+
+        <div class="write-actions">
+          <button id="submit-btn" class="btn btn-orange btn-block">저장하기</button>
+        </div>
+        
+        <span id="disable-hrv-btn" class="disable-hrv-link">웨어러블 기기가 없어요</span>
+      </div>
+    </div>
+
+    <section class="history-section">
+      <h3 class="history-title">📊 최근 7일 HRV</h3>
+      <div id="chart-container" class="chart-container">
+        <!-- 차트가 여기에 렌더링됩니다 -->
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/hrv.js"></script>
+</body>
+</html>

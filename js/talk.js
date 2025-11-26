@@ -10,6 +10,7 @@ import {
 const backBtn = document.querySelector("#back-btn");
 const talkInput = document.querySelector("#talk-input");
 const charCount = document.querySelector("#char-count");
+const minCharWarning = document.querySelector("#min-char-warning");
 const submitBtn = document.querySelector("#submit-btn");
 const feedback = document.querySelector("#feedback");
 const attemptCountDiv = document.querySelector("#attempt-count");
@@ -30,17 +31,36 @@ let attempts = [];
 let talkData = [];
 let hasWearable = true;
 
+const MIN_CHARS = 30;
+
 backBtn.addEventListener("click", () => window.location.href = "home.html");
 
 talkInput.addEventListener("input", () => {
   const len = talkInput.value.length;
   charCount.textContent = len;
+  
+  // 최소 글자수 경고
+  if (len > 0 && len < MIN_CHARS) {
+    minCharWarning.classList.remove("hidden");
+  } else {
+    minCharWarning.classList.add("hidden");
+  }
+  
   if (len > 500) talkInput.value = talkInput.value.slice(0, 500);
 });
 
 submitBtn.addEventListener("click", async () => {
   const content = talkInput.value.trim();
-  if (!content) { alert("내용을 입력해주세요."); return; }
+  
+  if (!content) {
+    alert("내용을 입력해주세요.");
+    return;
+  }
+  
+  if (content.length < MIN_CHARS) {
+    alert(`더 정확한 분석을 위해 ${MIN_CHARS}자 이상 작성해주세요. (현재: ${content.length}자)`);
+    return;
+  }
 
   submitBtn.disabled = true;
   submitBtn.textContent = "분석 중...";
@@ -57,6 +77,8 @@ submitBtn.addEventListener("click", async () => {
       attemptCountDiv.classList.remove("hidden");
       attemptsSpan.textContent = attempts.length;
       talkInput.value = "";
+      charCount.textContent = "0";
+      minCharWarning.classList.add("hidden");
     }
   } catch (e) {
     console.error(e);
@@ -78,7 +100,7 @@ async function checkSentiment(text) {
     const data = await res.json();
     return data.sentiment?.toLowerCase().trim() === "positive";
   } catch (e) {
-    return true; // 오류 시 긍정으로 처리
+    return true;
   }
 }
 
@@ -99,7 +121,6 @@ async function saveTalk(emotion) {
   try {
     const col = getUserTalksCollection();
     
-    // 여러 시도가 있으면 형식화
     let content;
     if (attempts.length === 1) {
       content = attempts[0];
@@ -121,13 +142,19 @@ async function saveTalk(emotion) {
 
     talkInput.value = "";
     charCount.textContent = "0";
+    minCharWarning.classList.add("hidden");
     attempts = [];
     feedback.classList.add("hidden");
     attemptCountDiv.classList.add("hidden");
 
-    // 다음 단계
     const status = await getTodayStatus();
-    if (hasWearable && !status.hrv) {
+    if (!status.journal) {
+      if (confirm("저장되었습니다! 감사 일기를 작성하러 갈까요?")) {
+        window.location.href = "journal.html";
+      } else {
+        window.location.href = "home.html";
+      }
+    } else if (hasWearable && !status.hrv) {
       if (confirm("저장되었습니다! HRV를 기록하러 갈까요?")) {
         window.location.href = "hrv.html";
       } else {
@@ -179,7 +206,7 @@ function renderHistory() {
     submitBtn.disabled = true;
     submitBtn.textContent = "오늘 작성 완료 ✓";
     talkInput.disabled = true;
-    talkInput.placeholder = "오늘의 긍정 자기대화를 이미 작성했습니다.";
+    talkInput.placeholder = "오늘의 긍정적 자기 소통을 이미 작성했습니다.";
   }
 
   historyList.innerHTML = talkData.map((item, i) => `

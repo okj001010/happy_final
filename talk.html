@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HAPPY - 긍정 자기대화</title>
+  <title>HAPPY - 긍정적 자기 소통</title>
   <link rel="stylesheet" href="css/talk.css">
 </head>
 <body>
@@ -12,13 +12,13 @@
   <main class="container">
     <div class="page-header">
       <button class="back-btn" id="back-btn">←</button>
-      <h1 class="page-title">💪 긍정 자기대화</h1>
+      <h1 class="page-title">💪 긍정적 자기 소통</h1>
     </div>
 
     <div class="write-card">
       <div class="write-header">
-        <h2>나에게 긍정적인 말을 해주세요</h2>
-        <p>자신을 격려하고 응원하는 말을 적어보세요.</p>
+        <h2>나에게 긍정적인 말을 건네보세요</h2>
+        <p>긍정적 자기 소통을 연습해보세요. 자신을 격려하고 응원하는 말을 적어보세요.</p>
       </div>
       <div class="write-body">
         <!-- 부정적 피드백 -->
@@ -34,7 +34,10 @@
 
         <textarea id="talk-input" class="write-textarea" 
           placeholder="예: 나는 충분히 잘하고 있어. 오늘도 최선을 다한 나에게 고마워!"></textarea>
-        <div class="char-count"><span id="char-count">0</span>/500</div>
+        <div class="char-count">
+          <span id="char-count">0</span>/500
+          <span id="min-char-warning" class="min-char-warning hidden">※ 정확한 분석을 위해 30자 이상 작성해주세요</span>
+        </div>
         <div class="write-actions">
           <button id="submit-btn" class="btn btn-green">저장하기</button>
         </div>
@@ -52,7 +55,7 @@
     <div class="modal-content">
       <div class="emotion-prompt">
         <div class="icon">🎉</div>
-        <p>멋진 긍정 대화예요! 지금 느끼는 감정도 기록해볼까요?</p>
+        <p>멋진 긍정 소통이에요! 지금 느끼는 감정도 기록해볼까요?</p>
       </div>
       <h3>지금 느끼는 감정은?</h3>
       <textarea id="emotion-input" placeholder="예: 자신감이 생겨요, 힘이 나요..."></textarea>

@@ -266,3 +266,54 @@
   
   .hrv-stat .value { font-size: 1rem; }
 }
+/* HRV 측정 방법 안내 스타일 */
+.hrv-guide {
+  background: #FFF8E1;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-left: 4px solid #FFA000;
+}
+
+.guide-title {
+  font-weight: 600;
+  color: #E65100;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.guide-steps {
+  margin: 10px 0 10px 20px;
+  padding: 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.guide-steps li {
+  margin-bottom: 5px;
+}
+
+.guide-note {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #FFE0B2;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* 최소 글자수 경고 */
+.min-char-warning {
+  color: #FF5722;
+  font-size: 0.75rem;
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+@media (max-width: 500px) {
+  .hrv-guide { padding: 12px; margin-bottom: 15px; }
+  .guide-title { font-size: 0.9rem; }
+  .guide-steps { font-size: 0.85rem; margin-left: 15px; }
+  .guide-note { font-size: 0.8rem; }
+  .min-char-warning { display: block; margin-left: 0; margin-top: 5px; }
+}

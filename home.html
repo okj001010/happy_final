@@ -43,24 +43,24 @@
     <section class="daily-tasks">
       <h2 class="section-title">📋 오늘의 할 일</h2>
       <div class="task-list">
+        <!-- 긍정적 자기 소통 -->
+        <div class="task-item" id="task-talk" data-task="talk">
+          <div class="task-icon positive">💪</div>
+          <div class="task-info">
+            <div class="task-name">긍정적 자기 소통</div>
+            <div class="task-desc">긍정적인 말로 자신과 소통해보세요</div>
+          </div>
+          <div class="task-status pending" id="status-talk"></div>
+        </div>
+
         <!-- 감사 일기 -->
         <div class="task-item" id="task-journal" data-task="journal">
           <div class="task-icon gratitude">📝</div>
           <div class="task-info">
             <div class="task-name">감사 일기</div>
-            <div class="task-desc">오늘 감사한 일을 기록하세요</div>
+            <div class="task-desc">앞서 연습한 긍정 소통을 바탕으로 감사를 기록하세요</div>
           </div>
           <div class="task-status pending" id="status-journal"></div>
-        </div>
-
-        <!-- 긍정 대화 -->
-        <div class="task-item" id="task-talk" data-task="talk">
-          <div class="task-icon positive">💪</div>
-          <div class="task-info">
-            <div class="task-name">긍정 자기대화</div>
-            <div class="task-desc">긍정적인 말로 자신을 격려하세요</div>
-          </div>
-          <div class="task-status pending" id="status-talk"></div>
         </div>
 
         <!-- HRV 기록 -->
@@ -82,7 +82,7 @@
         <div class="weekly-icon">📈</div>
         <div class="weekly-info">
           <div class="weekly-name">이번 주 분석 보기</div>
-          <div class="weekly-desc">감사 일기, 긍정 대화, HRV 종합 리포트</div>
+          <div class="weekly-desc">긍정 소통, 감사 일기, HRV 종합 리포트</div>
         </div>
         <span id="weekly-badge" class="weekly-badge hidden">0</span>
       </div>

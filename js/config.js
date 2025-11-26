@@ -35,7 +35,7 @@ const firebaseConfig = {
   projectId: "happy-f0aed",
   storageBucket: "happy-f0aed.firebasestorage.app",
   messagingSenderId: "76329884374",
-  appId: "1:76329884374:web:2f6bcd1d3985b748ac4777",
+  appId: "1:76329884374:web:2f6bcd1d3985b748ac4777"
 };
 
 const SENTIMENT_FUNCTION_URL =

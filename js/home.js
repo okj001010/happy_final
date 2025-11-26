@@ -13,31 +13,30 @@ const logoutBtn = document.querySelector("#logout-btn");
 const progressCount = document.querySelector("#progress-count");
 const progressFill = document.querySelector("#progress-fill");
 const completeMessage = document.querySelector("#complete-message");
-const taskJournal = document.querySelector("#task-journal");
 const taskTalk = document.querySelector("#task-talk");
+const taskJournal = document.querySelector("#task-journal");
 const taskHrv = document.querySelector("#task-hrv");
-const statusJournal = document.querySelector("#status-journal");
 const statusTalk = document.querySelector("#status-talk");
+const statusJournal = document.querySelector("#status-journal");
 const statusHrv = document.querySelector("#status-hrv");
 const weeklyCard = document.querySelector("#weekly-card");
 const weeklyBadge = document.querySelector("#weekly-badge");
 
-let hasWearable = true; // 기본값 true
+let hasWearable = true;
 
-// 로그아웃
 logoutBtn.addEventListener("click", async () => {
   showLoading();
   await logout();
   window.location.href = "login.html";
 });
 
-// 태스크 클릭 - 완료 여부와 관계없이 항상 이동 가능
-taskJournal.addEventListener("click", () => {
-  window.location.href = "journal.html";
-});
-
+// 태스크 클릭 - 순서: talk -> journal -> hrv
 taskTalk.addEventListener("click", () => {
   window.location.href = "talk.html";
+});
+
+taskJournal.addEventListener("click", () => {
+  window.location.href = "journal.html";
 });
 
 taskHrv.addEventListener("click", () => {
@@ -48,7 +47,6 @@ weeklyCard.addEventListener("click", () => {
   window.location.href = "weekly.html";
 });
 
-// 상태 업데이트
 function updateTaskStatus(element, statusEl, completed) {
   if (completed) {
     element.classList.add("completed");
@@ -66,8 +64,8 @@ function updateTaskStatus(element, statusEl, completed) {
 function updateProgress(status) {
   const total = hasWearable ? 3 : 2;
   let completed = 0;
-  if (status.journal) completed++;
   if (status.talk) completed++;
+  if (status.journal) completed++;
   if (hasWearable && status.hrv) completed++;
 
   progressCount.textContent = `${completed}/${total}`;
@@ -80,7 +78,6 @@ function updateProgress(status) {
   }
 }
 
-// 안 읽은 주간 보고서 수
 async function getUnreadWeeklyCount() {
   const types = hasWearable ? ["gratitude", "selftalk", "hrv"] : ["gratitude", "selftalk"];
   let total = 0;
@@ -118,41 +115,35 @@ async function getUnreadWeeklyCount() {
   return total;
 }
 
-// 초기화
 async function initialize() {
   showLoading();
 
   try {
     const user = await requireAuth("login.html");
 
-    // 사용자 정보 표시
     userName.textContent = user.displayName || user.email || "사용자";
     if (user.photoURL) {
       userPhoto.src = user.photoURL;
       userPhoto.classList.remove("hidden");
     }
 
-    // 설정 확인 - hasWearable이 명시적으로 false인 경우에만 HRV 숨김
     const settings = await getUserSettings();
     hasWearable = settings?.hasWearable !== false;
 
-    // HRV 태스크 표시 여부
     if (hasWearable) {
       taskHrv.classList.remove("hidden");
     } else {
       taskHrv.classList.add("hidden");
     }
 
-    // 오늘 상태
     const status = await getTodayStatus();
-    updateTaskStatus(taskJournal, statusJournal, status.journal);
     updateTaskStatus(taskTalk, statusTalk, status.talk);
+    updateTaskStatus(taskJournal, statusJournal, status.journal);
     if (hasWearable) {
       updateTaskStatus(taskHrv, statusHrv, status.hrv);
     }
     updateProgress(status);
 
-    // 주간 보고서 뱃지
     const unreadCount = await getUnreadWeeklyCount();
     if (unreadCount > 0) {
       weeklyBadge.textContent = unreadCount;

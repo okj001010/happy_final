@@ -22,10 +22,9 @@ exports.classifySentiment = onRequest(
           messages: [
             {
               role: "system",
-              content: "You're an analyst. Tell if the user's message " +
-                "is positive or not. Consider gratitude, appreciation, " +
-                "hope, joy, and optimism as positive. Only respond with " +
-                "'positive' or 'negative'.",
+              content: "당신은 감정 분석 전문가입니다. 사용자가 작성한 글이 긍정적인지 부정적인지 판단해주세요. " +
+                "감사, 고마움, 희망, 기쁨, 낙관 등의 긍정적 감정이 담겨 있으면 'positive'로 판단합니다. " +
+                "'positive' 또는 'negative' 중 하나만 응답하세요.",
             },
             { role: "user", content: req.body.text },
           ],
@@ -66,6 +65,18 @@ exports.createWeeklyReports = onSchedule(
       const userId = userDoc.id;
       const userData = userDoc.data();
 
+      // 긍정적 자기 소통 요약
+      await createReport(
+        openai,
+        userId,
+        "talks",
+        "weekly-reports-selftalk",
+        "selftalk",
+        weekNumber,
+        now,
+        oneWeekAgo,
+      );
+
       // 감사 일기 요약
       await createReport(
         openai,
@@ -73,18 +84,6 @@ exports.createWeeklyReports = onSchedule(
         "journals",
         "weekly-reports-gratitude",
         "gratitude",
-        weekNumber,
-        now,
-        oneWeekAgo,
-      );
-
-      // 긍정 대화 요약
-      await createReport(
-        openai,
-        userId,
-        "talks",
-        "weekly-reports-selftalk",
-        "selftalk",
         weekNumber,
         now,
         oneWeekAgo,
@@ -106,10 +105,11 @@ exports.createWeeklyReports = onSchedule(
  * @param {string} userId - User ID
  * @param {string} source - Source collection name
  * @param {string} target - Target collection name
- * @param {string} type - Report type
+ * @param {string} type - Report type (gratitude or selftalk)
  * @param {number} weekNumber - Week number
  * @param {Date} now - Current date
  * @param {Date} oneWeekAgo - Date one week ago
+ * @return {Promise<void>}
  */
 async function createReport(
   openai,
@@ -132,7 +132,7 @@ async function createReport(
 
     const items = snapshot.docs.map((d) => d.data());
     const texts = items.map((j, i) =>
-      `Day ${i + 1}: ${j.content}`).join("\n");
+      `${i + 1}일차: ${j.content}`).join("\n");
 
     // 지난 주 리포트 가져오기
     const lastWeekNumber = weekNumber - 1;
@@ -148,34 +148,33 @@ async function createReport(
     }
 
     const promptBase = type === "gratitude" ?
-      "You summarize gratitude journals. Create a warm, " +
-      "encouraging weekly summary in Korean highlighting main themes." :
-      "You summarize positive self-talk. Create an encouraging " +
-      "weekly summary in Korean highlighting progress.";
+      "당신은 감사 일기를 요약하는 전문가입니다. 이번 주 작성된 감사 일기를 바탕으로 " +
+      "따뜻하고 격려하는 톤으로 주간 요약을 작성해주세요. 주요 주제와 감사의 대상을 파악하여 정리해주세요." :
+      "당신은 긍정적 자기 소통 기록을 분석하는 전문가입니다. 이번 주 작성된 긍정 소통 기록을 바탕으로 " +
+      "격려하고 응원하는 톤으로 주간 요약을 작성해주세요. 사용자의 긍정적 변화와 성장을 강조해주세요.";
 
     const prompt = lastWeekSummary ?
-      promptBase + ` 지난 주 요약: "${lastWeekSummary}"\n` +
-      "이번 주와 비교하여 어떤 발전이 있었는지도 언급해주세요. " +
-      "Keep it 2-3 paragraphs." :
-      promptBase + " Keep it 2-3 paragraphs.";
+      promptBase + `\n\n지난 주 요약:\n"${lastWeekSummary}"\n\n` +
+      "이번 주와 비교하여 어떤 발전이나 변화가 있었는지도 언급해주세요. " +
+      "2-3 문단으로 작성해주세요." :
+      promptBase + "\n\n2-3 문단으로 작성해주세요.";
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { role: "system", content: prompt },
-        { role: "user", content: `Summarize:\n${texts}` },
+        { role: "user", content: `다음 기록을 요약해주세요:\n\n${texts}` },
       ],
     });
 
     const summary = completion.choices[0].message.content;
 
-    // 썸네일 (일기 내용 기반 이미지)
+    // 썸네일 이미지 생성
     let imageUrl;
     try {
-      // 일기 내용에서 주요 키워드 추출하여 이미지 프롬프트 생성
       const contentSummary = items.map((item) => item.content)
         .join(" ")
-        .substring(0, 500); // 처음 500자만 사용
+        .substring(0, 500);
 
       const imgPromptRequest = type === "gratitude" ?
         `다음 감사 일기 내용을 바탕으로 이미지를 생성하기 위한 영어 프롬프트를 ` +
@@ -183,7 +182,7 @@ async function createReport(
         `파스텔 톤, 자연 요소, 부드러운 이미지. 미니멀리스트 스타일. ` +
         `텍스트는 포함하지 말고 웰니스 앱에 적합한 이미지. ` +
         `프롬프트만 영어로 출력하세요:\n\n${contentSummary}` :
-        `다음 긍정 자기대화 내용을 바탕으로 이미지를 생성하기 위한 영어 ` +
+        `다음 긍정 자기소통 내용을 바탕으로 이미지를 생성하기 위한 영어 ` +
         `프롬프트를 만들어주세요. 따뜻하고 격려하는 분위기의 일러스트레이션으로, ` +
         `파스텔 톤, 성장과 희망을 상징하는 요소, 부드러운 이미지. ` +
         `미니멀리스트 스타일. 텍스트는 포함하지 말고 웰니스 앱에 적합한 이미지. ` +
@@ -194,8 +193,8 @@ async function createReport(
         messages: [
           {
             role: "system",
-            content: "You create DALL-E image prompts. Output only the " +
-              "English prompt, nothing else.",
+            content: "당신은 DALL-E 이미지 프롬프트를 작성하는 전문가입니다. " +
+              "영어 프롬프트만 출력하고, 다른 설명은 하지 마세요.",
           },
           { role: "user", content: imgPromptRequest },
         ],
@@ -238,10 +237,10 @@ async function createReport(
  * @param {number} weekNumber - Week number
  * @param {Date} now - Current date
  * @param {Date} oneWeekAgo - Date one week ago
+ * @return {Promise<void>}
  */
 async function createHRVReport(openai, userId, weekNumber, now, oneWeekAgo) {
   try {
-    // HRV 데이터 가져오기
     const hrvSnapshot = await db.collection("users").doc(userId)
       .collection("hrv")
       .where("timestamp", ">=", oneWeekAgo)
@@ -292,10 +291,9 @@ async function createHRVReport(openai, userId, weekNumber, now, oneWeekAgo) {
         `${avgHrv}ms (${avgHrv >= lastWeekAvgHrv ? "증가" : "감소"})`;
     }
 
-    // HRV 추세 분석 (감소 추세인지 확인)
+    // HRV 추세 분석
     let trendWarning = "";
     if (hrvValues.length >= 3) {
-      // 최근 3일 평균 vs 초반 3일 평균
       const firstThird = hrvValues.slice(0, Math.ceil(hrvValues.length / 3));
       const lastThird = hrvValues.slice(-Math.ceil(hrvValues.length / 3));
       const firstAvg = firstThird.reduce((a, b) => a + b, 0) / firstThird.length;
@@ -306,12 +304,10 @@ async function createHRVReport(openai, userId, weekNumber, now, oneWeekAgo) {
       }
     }
 
-    // 지난 주 대비 경고
     if (lastWeekAvgHrv && avgHrv < lastWeekAvgHrv * 0.8) {
       trendWarning += "⚠️ 지난 주에 비해 HRV가 크게 낮아졌습니다. ";
     }
 
-    // AI 분석
     const hrvDataStr = hrvData.map((d) =>
       `${d.date}: ${d.hrv}ms`,
     ).join(", ");
@@ -326,7 +322,7 @@ async function createHRVReport(openai, userId, weekNumber, now, oneWeekAgo) {
       (trendWarning ? `\n${trendWarning}\n` : "") +
       "\n감사 일기 내용:\n" +
       (journals || "(없음)") +
-      "\n\n긍정 자기대화 내용:\n" +
+      "\n\n긍정적 자기 소통 내용:\n" +
       (talks || "(없음)") +
       "\n\n분석 요청사항:\n" +
       "1. HRV 추이 분석 (주 초반과 후반 비교, 변화 패턴)\n" +
@@ -349,8 +345,7 @@ async function createHRVReport(openai, userId, weekNumber, now, oneWeekAgo) {
       messages: [
         {
           role: "system",
-          content: "You are a health expert providing " +
-            "weekly health analysis.",
+          content: "당신은 건강 분석 전문가로서 주간 건강 리포트를 작성합니다.",
         },
         { role: "user", content: analysisPrompt },
       ],
